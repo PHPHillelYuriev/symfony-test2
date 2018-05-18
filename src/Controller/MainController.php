@@ -9,6 +9,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use App\Entity\Posts;
 use App\Entity\Category;
 use App\Entity\Tags;
+use App\Repository\CategoryRepository;
+use App\Repository\TagsRepository;
 
 class MainController extends Controller
 {
@@ -25,37 +27,29 @@ class MainController extends Controller
     /**
      * @Route("/posts", name="posts")
      */
-    public function posts()
+    public function posts(CategoryRepository $category)
     {   
-        $categories = $this->getDoctrine()->getRepository(Category::class)->findAll();
-        
         return $this->render('main/posts.html.twig', [
-            'categories' => $categories,
-        ]);
+            'categories' => $category->findAll()]);
     }
 
     /**
-     * @Route("/posts/{postId}", name="showPostById", requirements={"postId"="\d+"})
+     * @Route("/posts/{id}", name="showPostById", requirements={"id"="\d+"})
+     * 
      */
-    public function showPostById($postId)
+    public function showPostById(Posts $post)
     {   
-        $post = $this->getDoctrine()->getRepository(Posts::class)->find($postId);
-        
-        return $this->render('main/post.html.twig', [
-            'post' => $post,
-        ]);
+        return $this->render('main/post.html.twig', ['post' => $post]);
     }
 
     /**
-     * @Route("/posts/{tag}", name="tag")
+     * @Route("/posts/{tag}", name="showPostsByTag")
      */
-    public function tag($tag)
+    public function showPostsByTag($tag)
     {   
         $tag = $this->getDoctrine()->getRepository(Tags::class)->findOneBy(['name' => $tag]);
-        
-        return $this->render('main/tag.html.twig', [
-            'tag' => $tag,
-        ]);
+
+        return $this->render('main/tag.html.twig', ['tag' => $tag]);
     }
 
     /**
