@@ -29,8 +29,7 @@ class MainController extends Controller
      */
     public function posts(CategoryRepository $category)
     {   
-        return $this->render('main/posts.html.twig', [
-            'categories' => $category->findAll()]);
+        return $this->render('main/posts.html.twig', ['categories' => $category->findAll()]);
     }
 
     /**
@@ -43,13 +42,21 @@ class MainController extends Controller
     }
 
     /**
-     * @Route("/posts/{tag}", name="showPostsByTag")
+     * @Route("/posts/tags", name="showTags")
      */
-    public function showPostsByTag($tag)
+    public function showTags(TagsRepository $posts)
     {   
-        $tag = $this->getDoctrine()->getRepository(Tags::class)->findOneBy(['name' => $tag]);
+        return $this->render('main/tags.html.twig', ['tags' => $posts->findAll()]);
+    }
 
-        return $this->render('main/tag.html.twig', ['tag' => $tag]);
+    /**
+     * @Route("/posts/tags/{tag}", name="showPostsByTag")
+     */
+    public function showPostsByTag(TagsRepository $posts, $tag)
+    {   
+        // $tag = $this->getDoctrine()->getRepository(Tags::class)->findOneBy(['name' => $tag]);
+
+        return $this->render('main/tag.html.twig', ['tags' => $posts->findOneBy(['name' => $tag]) ]);
     }
 
     /**

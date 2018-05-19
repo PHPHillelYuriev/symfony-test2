@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Tags{% endblock %}
+{% block title %}Posts{% endblock %}
 
 {% block body %}
 <style>
@@ -9,12 +9,12 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ dump(tags) }}</h1>
-    
-   
-    
+    <h1>Hello posts! ✅</h1>
 
-        {% for post in tags.posts %}
+    {% for tag in tags %}
+    <h2>{{ tags.name }}</h2>
+    <ul>
+        {% for post in tag.posts %}
         <li><a href="{{ path( 'showPostById', {'id' : post.id}) }}">{{ post.title }}</a></li>
         <li>{{ post.description }}</li>
         <li>{{ post.content }}</li>
@@ -22,9 +22,7 @@
         <li>{{ post.publishedAt|date("d.m.Y G:i:s") }}</li>
         <hr>
         {% endfor %}
-  
-    
-   
-    
+    </ul>
+    {% endfor %}
 </div>
 {% endblock %}
