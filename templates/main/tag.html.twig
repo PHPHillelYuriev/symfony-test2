@@ -9,22 +9,16 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ dump(tags) }}</h1>
-    
-   
-    
+    <h1>Hello {{ dump(tag) }}</h1>   
 
-        {% for post in tags.posts %}
-        <li><a href="{{ path( 'showPostById', {'id' : post.id}) }}">{{ post.title }}</a></li>
-        <li>{{ post.description }}</li>
-        <li>{{ post.content }}</li>
-        <li>{{ post.author }}</li>
-        <li>{{ post.publishedAt|date("d.m.Y G:i:s") }}</li>
-        <hr>
-        {% endfor %}
-  
-    
-   
+        {% for post in tag.posts %}
+            <li><a href="{{ path( 'showPostById', {'id' : post.id}) }}">{{ post.title }}</a></li>
+            <li>{{ post.description }}</li>
+            <li>{{ post.content }}</li>
+            <li>{{ post.author }}</li>
+            <li>{{ post.publishedAt|date("d.m.Y G:i:s") }}</li>
+            <hr>
+        {% endfor %}  
     
 </div>
 {% endblock %}

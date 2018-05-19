@@ -44,19 +44,19 @@ class MainController extends Controller
     /**
      * @Route("/posts/tags", name="showTags")
      */
-    public function showTags(TagsRepository $posts)
+    public function showTags(TagsRepository $tags)
     {   
-        return $this->render('main/tags.html.twig', ['tags' => $posts->findAll()]);
+        return $this->render('main/tags.html.twig', ['tags' => $tags->findAll()]);
     }
 
     /**
-     * @Route("/posts/tags/{tag}", name="showPostsByTag")
+     * @Route("/posts/tags/{tagName}", name="showPostsByTag")
      */
-    public function showPostsByTag(TagsRepository $posts, $tag)
+    public function showPostsByTag(TagsRepository $tag, string $tagName)
     {   
         // $tag = $this->getDoctrine()->getRepository(Tags::class)->findOneBy(['name' => $tag]);
 
-        return $this->render('main/tag.html.twig', ['tags' => $posts->findOneBy(['name' => $tag]) ]);
+        return $this->render('main/tag.html.twig', ['tag' => $tag->findOneBy(['name' => $tagName]) ]);
     }
 
     /**

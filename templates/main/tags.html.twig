@@ -12,7 +12,7 @@
     <h1>Hello posts! ✅</h1>
 
     {% for tag in tags %}
-    <h2>{{ tags.name }}</h2>
+    <h2>{{ tag.name }}</h2>
     <ul>
         {% for post in tag.posts %}
         <li><a href="{{ path( 'showPostById', {'id' : post.id}) }}">{{ post.title }}</a></li>
