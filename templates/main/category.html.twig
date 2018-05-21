@@ -13,10 +13,9 @@
             <!-- Article List -->
 
             <div class="col-sm-12 col-md-8">
-
-                {% for category in categories %}                    
-
-                    {% for post in category.posts %}
+                <h3 class="text-center pb-3">{{ category.name|title }}</h3>
+                
+                {% for post in category.posts %}
 
                     <div class="article-container my-1">
                         <a href="{{ path('showPostById', {'id': post.id}) }}">
@@ -29,19 +28,9 @@
                             </div>
                         </a>
                     </div>
-                    {% endfor %}
+            
                 {% endfor %}
             </div>
-
-            <!-- Right bar ad space -->
-
-            <div class="quote-space pb-2 pt-2 px-5">
-                <h3 class="text-center pb-3">Categories:</h3>
-
-                {% for category in categories %}
-                    <h4><a href="{{ path('showCategory', {'category': category.name}) }}">{{ category.name|title }}</a></h4>
-                {% endfor %}
-            </div>  
                     
         </div>
     </div>

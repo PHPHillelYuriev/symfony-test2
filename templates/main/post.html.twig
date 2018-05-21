@@ -1,24 +1,101 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Posts{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/font-awesome.css') }}">
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello postById! ✅</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="show-article-container p-3 mt-4">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <img class="show-article-img" src="{{ asset(post.preview) }}">
+                        <div class="show-article-title-container d-inline-block pl-3 align-middle">
+                            <span class="show-article-title ">{{ post.title|title }}</span>
+                            <br>
+                            <span class="align-left article-details"><img class="article-author-img rounded-circle" src="{{ asset('images/alien-profile.png') }}">{{ post.author }}</span>
+                            <span class="pl-2 article-details">{{ post.publishedAt|date("d.m.Y G:i:s") }}</span>
+                            <span class="pl-2 article-details"> 5 <a href="#" class="fa fa-heart-o like-article"></a> </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="article-text">
+                            <p>{{ post.content }}</p>
+                            <p><a href="{{ path('showCategory', {'category': post.category}) }}" >Back to catecory: {{ post.category }}</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <p class="share-icons mb-5"><span class="pr-1">Share:</span> <i class="pr-1 fa fa-facebook-square"></i><i class="pr-1 fa fa-twitter-square"></i><i class="pr-1 fa fa-reddit-square"></i><i class="pr-1 fa fa-share-alt-square"></i></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        {% if post.comments is empty %}
+                            <h3><i class="pr-3 fa fa-comment"></i>No comments</h3><hr>
+                            <div class="row mb-5">
+                                <div class="col-sm-12">
+                                    <img class="comment-img rounded-circle" src="{{ asset('images/astronaut-profile.png') }}">
+                                    <div class="comment-container d-inline-block pl-3 align-top">
+                                        <span class="commenter-name">Amy Oort</span>
+                                        <div class="form-group">
+                                            <textarea class="form-control comment-form" id="articleText" rows="1"></textarea>
+                                        </div>
+                                        <button type="submit" class="btn btn-info">Comment</button>
+                                    </div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <h3><i class="pr-3 fa fa-comment"></i>{{ post.comments|length }} comments</h3>
+                            <div class="row mb-5">
+                                <div class="col-sm-12">
+                                    <img class="comment-img rounded-circle" src="{{ asset('images/astronaut-profile.png') }}">
+                                    <div class="comment-container d-inline-block pl-3 align-top">
+                                        <span class="commenter-name">Amy Oort</span>
+                                        <div class="form-group">
+                                            <textarea class="form-control comment-form" id="articleText" rows="1"></textarea>
+                                        </div>
+                                        <button type="submit" class="btn btn-info">Comment</button>
+                                    </div>
+                                </div>
+                            </div>
 
-    <h2>{{ post.title }}</h2>
-    <ul>
-        
-        <li>{{ post.description }}</li>
-        <li>{{ post.content }}</li>
-        <li>{{ post.author }}</li>
-        <li>{{ post.publishedAt|date("d/m/Y") }}</li>
-        
-    </ul>
+                            <div class="row">
+                            {% for comment in post.comments %}
+                            
+                                <div class="col-sm-12">
+                                    <img class="comment-img rounded-circle" src="{{ asset('images/alien-profile.png') }}">
+                                    <div class="comment-container d-inline-block pl-3 align-top">
+                                        <span class="align-left commenter-name">{{ comment.author }}</span>
+                                        <span class="align-right comment">{{ comment.publishedDate|date("d.m.Y G:i:s") }}</span>
+                                        <br>
+                                        <p class="comment">{{ comment.content }}</p>
+                                   </div>
+                                </div>
+                            {% endfor%}
+                            </div>
+
+                            
+
+                        {% endif %}
+
+                        
+
+                         
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
 {% endblock %}

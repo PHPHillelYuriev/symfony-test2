@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-// use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -38,11 +37,20 @@ class MainController extends Controller
 
     /**
      * @Route("/posts/{id}", name="showPostById", requirements={"id"="\d+"})
-     * @ParamConverter("post", class="App\Entity\Posts")
      */
     public function showPostById(Posts $post)
     {   
         return $this->render('main/post.html.twig', ['post' => $post]);
+    }
+
+    /**
+     * @Route("/posts/{category}", name="showCategory")
+     */
+    public function showCategory(CategoryRepository $categoryRepository, string $category)
+    {   
+        $category = $categoryRepository->findOneBy(['name' => $category]);
+
+        return $this->render('main/category.html.twig', ['category' => $category]);
     }
 
     /**
@@ -56,15 +64,13 @@ class MainController extends Controller
     }
 
     /**
-     * @Route("/posts/tags/{tagName}", name="showPostsByTag")
-     * @ParamConverter("posts", options={"mapping": {"tagName": "name"}})
+     * @Route("/posts/tags/{tag}", name="showPostsByTag")
      */
-    public function showPostsByTag(TagsRepository $tagRepository)
+    public function showPostsByTag(TagsRepository $tagRepository, string $tag)
     {   
-        // $tag = $this->getDoctrine()->getRepository(Tags::class)->findOneBy(['name' => $tag]);
-        $tags = $tagsRepositoryfindOneBy(['name' => 'tagName']);
+        $tag = $tagsRepositoryfindOneBy(['name' => $tag]);
         
-        return $this->render('main/tag.html.twig', ['tag' => $posts->findOneBy(['name' => 'tagName']) ]);
+        return $this->render('main/tag.html.twig', ['tag' => $tag ]);
     }
 
     /**
