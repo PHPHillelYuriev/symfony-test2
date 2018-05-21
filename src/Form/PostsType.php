@@ -16,7 +16,8 @@ class PostsType extends AbstractType
             ->add('description')
             ->add('content')
             ->add('author')
-            ->add('published_at')
+            // ->add('published_at')
+            ->add('preview')
             ->add('category')
             ->add('tags')
         ;

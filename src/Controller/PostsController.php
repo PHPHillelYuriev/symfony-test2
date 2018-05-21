@@ -16,15 +16,15 @@ use Symfony\Component\Routing\Annotation\Route;
 class PostsController extends Controller
 {
     /**
-     * @Route("/homepage", name="adminPanel", methods="GET")
+     * @Route("/adminPanel", name="adminPanel", methods="GET")
      */
-    public function adminPanel(PostsRepository $posts): Response
+    public function adminPanel(PostsRepository $postsRepository): Response
     {
-        return $this->render('posts/index.html.twig', ['posts' => $posts->findAll()]);
+        return $this->render('posts/index.html.twig', ['posts' => $postsRepository->findAll()]);
     }
 
     /**
-     * @Route("/new", name="posts_new", methods="GET|POST")
+     * @Route("/new", name="addPost", methods="GET|POST")
      */
     public function new(Request $request): Response
     {
@@ -37,7 +37,7 @@ class PostsController extends Controller
             $em->persist($post);
             $em->flush();
 
-            return $this->redirectToRoute('adminPanel');
+            return $this->redirectToRoute('posts_index');
         }
 
         return $this->render('posts/new.html.twig', [
@@ -85,6 +85,6 @@ class PostsController extends Controller
             $em->flush();
         }
 
-        return $this->redirectToRoute('adminPanel');
+        return $this->redirectToRoute('posts_index');
     }
 }

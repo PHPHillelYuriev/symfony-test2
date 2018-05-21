@@ -44,13 +44,11 @@ class MainController extends Controller
     }
 
     /**
-     * @Route("/posts/{category}", name="showCategory")
+     * @Route("/posts/{id}/heart", name="togglePostHeart", requirements={"id"="\d+"})
      */
-    public function showCategory(CategoryRepository $categoryRepository, string $category)
-    {   
-        $category = $categoryRepository->findOneBy(['name' => $category]);
-
-        return $this->render('main/category.html.twig', ['category' => $category]);
+    public function togglePostHeart(string $id)
+    {
+        return $this->json(['hearts' => rand(5, 100)]);
     }
 
     /**
@@ -64,11 +62,21 @@ class MainController extends Controller
     }
 
     /**
+     * @Route("/posts/{category}", name="showCategory")
+     */
+    public function showCategory(CategoryRepository $categoryRepository, string $category)
+    {   
+        $category = $categoryRepository->findOneBy(['name' => $category]);
+
+        return $this->render('main/category.html.twig', ['category' => $category]);
+    }
+
+    /**
      * @Route("/posts/tags/{tag}", name="showPostsByTag")
      */
     public function showPostsByTag(TagsRepository $tagRepository, string $tag)
     {   
-        $tag = $tagsRepositoryfindOneBy(['name' => $tag]);
+        $tag = $tagRepository->findOneBy(['name' => $tag]);
         
         return $this->render('main/tag.html.twig', ['tag' => $tag ]);
     }
@@ -84,6 +92,8 @@ class MainController extends Controller
         $url = str_replace($pathInfo, rtrim($pathInfo, ' /'), $requestUri);
         return $this->redirect($url, 308);
     }
+
+
 
     
 }
