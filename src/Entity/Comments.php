@@ -37,6 +37,11 @@ class Comments
      */
     private $published_date;
 
+    public function __construct()
+    {
+        $this->published_date = new \DateTime() ? new \DateTime() : 'NEW';
+    }
+
     public function getId()
     {
         return $this->id;

@@ -1,4 +1,30 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+{{ form_start(form, {class: 'text-center'}) }}
+    <div class="col-md-6 ">
+        {{ form_row(form.title) }}
+    </div>
+    <div class="col-md-6">
+        {{ form_row(form.description) }}
+    </div>
+    <div class="col-md-10">
+        {{ form_row(form.content) }}
+    </div>
+    <div class="form-row">
+        <div class="col-md-5">
+            {{ form_row(form.author) }}
+        </div>
+        <div class="col-md-5">
+            {{ form_row(form.preview) }}
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-4">
+            {{ form_row(form.category) }}
+        </div>
+        <div class="col-md-4">
+            {{ form_row(form.tags) }}
+        </div>
+    </div>
+    <button class="btn btn-info">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

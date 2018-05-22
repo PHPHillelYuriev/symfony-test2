@@ -42,6 +42,7 @@ class MainController extends Controller
     {   
         return $this->render('main/post.html.twig', ['post' => $post]);
     }
+
     /**
      * @Route("/posts/{id}/heart", name="togglePostHeart", requirements={"id"="\d+"}, methods={"POST"})
      */
@@ -50,6 +51,19 @@ class MainController extends Controller
         return $this->json(['hearts' => rand(5, 100)]);
     }
 
+    /**
+     * @Route("/posts/categories/showCategories", name="showCategoriesFromAjax", requirements={"id"="\d+"}, methods={"POST"})
+     */
+    public function showCategoriesFromAjax()
+    {   
+        $categories = [
+            'category1' => 'Space',
+            'category2' => 'Planet',
+            'category3' => 'Our planet',
+        ];
+
+        return $this->json($categories);
+    }
     /**
      * @Route("/{url}", name="remove_trailing_slash",
      *     requirements={"url" = ".*\/$"})
@@ -63,3 +77,4 @@ class MainController extends Controller
         return $this->redirect($url, 308);
     }    
 }
+

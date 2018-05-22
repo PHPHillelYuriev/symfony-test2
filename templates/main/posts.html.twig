@@ -44,12 +44,18 @@
             <!-- Right bar ad space -->
 
             <div class="quote-space pb-2 pt-2 px-5">
-                <h3 class="text-center pb-3">Categories:</h3>
-
-                {% for category in categories %}
-                    <h4><a href="{{ path('category_show', {'id': category.id}) }}">{{ category.name|title }}</a></h4>
-                {% endfor %}
+                <h3 class="text-center pb-3">
+                    <a href="{{ path('showCategoriesFromAjax') }}" class="js-showCategories">Categories:</a>
+                </h3>
+                <ul class="js-categoriesList list-group">    
+                </ul>
+            <div>             
 
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/showCategories.js') }}"></script>
 {% endblock %}
