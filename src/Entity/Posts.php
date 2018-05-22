@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PostsRepository")
@@ -20,21 +21,25 @@ class Posts
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $title;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $description;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank()
      */
     private $content;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $author;
 
@@ -45,16 +50,19 @@ class Posts
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="posts")
+     * @Assert\NotBlank()
      */
     private $category;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Tags", inversedBy="posts")
+     * @Assert\NotBlank()
      */
     private $tags;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $preview;
 
@@ -67,6 +75,11 @@ class Posts
     {
         $this->tags = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->published_at = new \DateTime() ? new \DateTime() : 'NEW';
+    }
+    public function __toString()
+    {
+        return $this->title;
     }
 
     public function getId()

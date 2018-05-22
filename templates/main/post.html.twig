@@ -20,7 +20,11 @@
                             <br>
                             <span class="align-left article-details"><img class="article-author-img rounded-circle" src="{{ asset('images/alien-profile.png') }}">{{ post.author }}</span>
                             <span class="pl-2 article-details">{{ post.publishedAt|date("d.m.Y G:i:s") }}</span>
-                            <span class="pl-2 article-details"><a href="{{ path('togglePostHeart', {'id': post.id}) }}" class="fa fa-heart-o like-article js-like-article"></a> </span>
+                            <span class="pl-2 article-details">
+                                <span class="js-like-article-count">5<span>
+                                <a href="{{ path('togglePostHeart', {'id': post.id}) }}" class="fa fa-heart-o like-article js-like-article"></a>
+                            </span>
+                            
                         </div>
                     </div>
                 </div>
@@ -28,7 +32,7 @@
                     <div class="col-sm-12">
                         <div class="article-text">
                             <p>{{ post.content }}</p>
-                            <p><a href="{{ path('showCategory', {'category': post.category}) }}" >Back to catecory: {{ post.category }}</a></p>
+                            <p><a href="{{ path('category_show', {'id': post.category}) }}" >Back to catecory: {{ post.category }}</a></p>
                         </div>
                     </div>
                 </div>

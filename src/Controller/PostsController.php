@@ -37,7 +37,7 @@ class PostsController extends Controller
             $em->persist($post);
             $em->flush();
 
-            return $this->redirectToRoute('posts_index');
+            return $this->redirectToRoute('adminPanel');
         }
 
         return $this->render('posts/new.html.twig', [
@@ -85,6 +85,6 @@ class PostsController extends Controller
             $em->flush();
         }
 
-        return $this->redirectToRoute('posts_index');
+        return $this->redirectToRoute('adminPanel');
     }
 }

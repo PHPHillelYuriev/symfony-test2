@@ -29,7 +29,7 @@
             </tr>
             <tr>
                 <th>Published_at</th>
-                <td>{{ post.published_at ? post.published_at|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ post.publishedAt ? post.publishedAt|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
                 <th>Preview</th>
@@ -38,7 +38,7 @@
         </tbody>
     </table>
 
-    <a href="{{ path('posts_index') }}">back to list</a>
+    <a href="{{ path('adminPanel') }}">back to list</a>
 
     <a href="{{ path('posts_edit', {'id': post.id}) }}">edit</a>
 

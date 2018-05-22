@@ -44,43 +44,11 @@ class MainController extends Controller
     }
 
     /**
-     * @Route("/posts/{id}/heart", name="togglePostHeart", requirements={"id"="\d+"})
+     * @Route("/posts/{id}/heart", name="togglePostHeart", requirements={"id"="\d+"}, methods={"POST"})
      */
     public function togglePostHeart(string $id)
     {
         return $this->json(['hearts' => rand(5, 100)]);
-    }
-
-    /**
-     * @Route("/posts/tags", name="showTags")
-     */
-    public function showTags(TagsRepository $tagsRepository)
-    {   
-        $tags = $tagsRepository->findAll();
-
-        return $this->render('main/tags.html.twig', ['tags' => $tags]);
-    }
-
-    /**
-     * @Route("/posts/{category}", name="showCategory")
-     * @ParamConverter("category", options={"mapping": {"category" = "name"}})
-     */
-    public function showCategory(Category $category)
-    {   
-        // $category = $categoryRepository->findOneBy(['name' => $category]);
-
-        return $this->render('main/category.html.twig', ['category' => $category]);
-    }
-
-    /**
-     * @Route("/posts/tags/{tag}", name="showPostsByTag")
-     * @ParamConverter("tag", options={"mapping": {"tag" = "name"}})
-     */
-    public function showPostsByTag(Tags $tag)
-    {   
-        // $tag = $tagRepository->findOneBy(['name' => $tag]);
-        
-        return $this->render('main/tag.html.twig', ['tag' => $tag ]);
     }
 
     /**
@@ -93,9 +61,5 @@ class MainController extends Controller
         $requestUri = $request->getRequestUri();
         $url = str_replace($pathInfo, rtrim($pathInfo, ' /'), $requestUri);
         return $this->redirect($url, 308);
-    }
-
-
-
-    
+    }    
 }
