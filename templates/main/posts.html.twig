@@ -25,7 +25,15 @@
                                 <span>{{ post.title|title }}</span>
                                 <br>
                                 <span class="align-left article-details"><img class="article-author-img rounded-circle" src="{{ asset('images/alien-profile.png') }}">{{ post.author }}</span>
+                                <p>
+                                {% for tag in post.tags %}
+
+                                    <span class="align-right article-details">{{ tag.name }}</span>
+
+                                {% endfor %}
+
                                 <span class="pl-5 article-details float-right">{{ post.publishedAt|date("d.m.Y G:i:s") }}</span>
+                                </p>
                             </div>
                         </a>
                     </div>
@@ -39,10 +47,9 @@
                 <h3 class="text-center pb-3">Categories:</h3>
 
                 {% for category in categories %}
-                    <h4><a href="{{ path('showCategory', {'category': category.name}) }}">{{ category.name|title }}</a></h4>
+                    <h4><a href="{{ path('category_show', {'id': category.id}) }}">{{ category.name|title }}</a></h4>
                 {% endfor %}
-            </div>  
-                    
+
         </div>
     </div>
 {% endblock %}
