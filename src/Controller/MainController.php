@@ -63,20 +63,22 @@ class MainController extends Controller
 
     /**
      * @Route("/posts/{category}", name="showCategory")
+     * @ParamConverter("category", options={"mapping": {"category" = "name"}})
      */
-    public function showCategory(CategoryRepository $categoryRepository, string $category)
+    public function showCategory(Category $category)
     {   
-        $category = $categoryRepository->findOneBy(['name' => $category]);
+        // $category = $categoryRepository->findOneBy(['name' => $category]);
 
         return $this->render('main/category.html.twig', ['category' => $category]);
     }
 
     /**
      * @Route("/posts/tags/{tag}", name="showPostsByTag")
+     * @ParamConverter("tag", options={"mapping": {"tag" = "name"}})
      */
-    public function showPostsByTag(TagsRepository $tagRepository, string $tag)
+    public function showPostsByTag(Tags $tag)
     {   
-        $tag = $tagRepository->findOneBy(['name' => $tag]);
+        // $tag = $tagRepository->findOneBy(['name' => $tag]);
         
         return $this->render('main/tag.html.twig', ['tag' => $tag ]);
     }
