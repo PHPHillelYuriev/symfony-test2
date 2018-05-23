@@ -1,24 +1,32 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Tags{% endblock %}
+{% block title %}{{ tag.name|title }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/font-awesome.css') }}">
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <h1>{{ tag.name|title }}</h1>
 
-<div class="example-wrapper">
-    <h1>Hello {{ dump(tag) }}</h1>   
+    {% for post in tag.posts %}
 
-        {% for post in tag.posts %}
-            <li><a href="{{ path( 'showPostById', {'id' : post.id}) }}">{{ post.title }}</a></li>
-            <li>{{ post.description }}</li>
-            <li>{{ post.content }}</li>
-            <li>{{ post.author }}</li>
-            <li>{{ post.publishedAt|date("d.m.Y G:i:s") }}</li>
+    <div class="article-container my-1">
+        <a href="{{ path('showPostById', {'id': post.id}) }}">
+            <img class="article-img" src="{{ asset(asset(post.preview)) }}">
+            <span>{{ post.title|title }}</span>
+            <hr>            
+        </a>
+        <div class="article-title d-inline-block pl-3 align-middle">
+            
+            <span>{{ post.description|title }}</span>
             <hr>
-        {% endfor %}  
-    
-</div>
+            <span class="align-left article-details"><img class="article-author-img rounded-circle" src="{{ asset('images/alien-profile.png') }}">{{ post.author }}</span>
+            <p class="pl-5 article-details float-right">{{ post.publishedAt|date("d.m.Y G:i:s") }}</p>                                
+        </div>
+    </div>
+
+    {% endfor %}
 {% endblock %}

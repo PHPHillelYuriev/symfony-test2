@@ -16,17 +16,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class CommentsController extends Controller
 {
     /**
-     * @Route("/comments", name="comments_index", methods="GET")
+     * @Route("{id}/comments/create", name="createNewComment", methods="GET|POST")
      */
-    public function index(CommentsRepository $commentsRepository): Response
-    {
-        return $this->render('comments/index.html.twig', ['comments' => $commentsRepository->findAll()]);
-    }
-
-    /**
-     * @Route("/new", name="comments_new", methods="GET|POST")
-     */
-    public function new(Request $request): Response
+    public function createNewComment(Request $request): Response
     {
         $comment = new Comments();
         $form = $this->createForm(CommentsType::class, $comment);
@@ -47,15 +39,7 @@ class CommentsController extends Controller
     }
 
     /**
-     * @Route("/{id}", name="comments_show", methods="GET")
-     */
-    public function show(Comments $comment): Response
-    {
-        return $this->render('comments/show.html.twig', ['comment' => $comment]);
-    }
-
-    /**
-     * @Route("/{id}/edit", name="comments_edit", methods="GET|POST")
+     * @Route("{id}/comments/{commentId}/edit", name="comments_edit", methods="GET|POST")
      */
     public function edit(Request $request, Comments $comment): Response
     {
@@ -75,7 +59,7 @@ class CommentsController extends Controller
     }
 
     /**
-     * @Route("/{id}", name="comments_delete", methods="DELETE")
+     * @Route("{id}/comments/{commentId}", name="comments_delete", methods="DELETE")
      */
     public function delete(Request $request, Comments $comment): Response
     {
