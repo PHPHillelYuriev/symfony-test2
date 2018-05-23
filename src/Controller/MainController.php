@@ -52,6 +52,18 @@ class MainController extends Controller
     }
 
     /**
+     * @Route("/posts/tags/{tag}", name="showPostsByTag")
+     * @ParamConverter("tag", options={"mapping": {"tag" = "name"}})
+     */
+
+    public function showPostsByTag(Tags $tag)
+    {   
+        // $tag = $tagRepository->findOneBy(['name' => $tag]);
+        
+        return $this->render('main/tag.html.twig', ['tag' => $tag ]);
+    }
+
+    /**
      * @Route("/posts/categories/showCategories", name="showCategoriesFromAjax", requirements={"id"="\d+"}, methods={"POST"})
      */
     public function showCategoriesFromAjax()
@@ -64,6 +76,7 @@ class MainController extends Controller
 
         return $this->json($categories);
     }
+
     /**
      * @Route("/{url}", name="remove_trailing_slash",
      *     requirements={"url" = ".*\/$"})

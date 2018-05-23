@@ -25,17 +25,18 @@
                                 <span>{{ post.title|title }}</span>
                                 <br>
                                 <span class="align-left article-details"><img class="article-author-img rounded-circle" src="{{ asset('images/alien-profile.png') }}">{{ post.author }}</span>
-                                <p>
-                                {% for tag in post.tags %}
-
-                                    <span class="align-right article-details">{{ tag.name }}</span>
-
-                                {% endfor %}
-
-                                <span class="pl-5 article-details float-right">{{ post.publishedAt|date("d.m.Y G:i:s") }}</span>
-                                </p>
+                                
                             </div>
                         </a>
+                        <p>
+                            {% for tag in post.tags %}
+
+                                <a href="{{ path('showPostsByTag', {'tag': tag.name}) }}" class="align-right article-details">{{ tag.name }}</a>
+
+                            {% endfor %}
+
+                            <span class="pl-5 article-details float-right">{{ post.publishedAt|date("d.m.Y G:i:s") }}</span>
+                        </p>
                     </div>
                     {% endfor %}
                 {% endfor %}

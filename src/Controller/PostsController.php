@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+
 /**
  * @Route("/admin")
  */
@@ -36,6 +37,7 @@ class PostsController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($post);
             $em->flush();
+            $this->addFlash('success','You added new post!');
 
             return $this->redirectToRoute('adminPanel');
         }

@@ -3,9 +3,12 @@
 {% block title %}New Posts{% endblock %}
 
 {% block body %}
+    {{ parent() }}
+    
     <h1>Create new Posts</h1>
 
     {{ include('posts/_form.html.twig') }}
 
     <a href="{{ path('adminPanel') }}">back to list</a>
+
 {% endblock %}
