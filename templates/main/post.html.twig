@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block body %}
-
+{{ parent() }}
 <div class="container">
     <div class="row">
         <div class="col-sm-12">
@@ -45,33 +45,10 @@
                     <div class="col-sm-12">
                         {% if post.comments is empty %}
                             <h3><i class="pr-3 fa fa-comment"></i>No comments</h3><hr>
-                            <div class="row mb-5">
-                                <div class="col-sm-12">
-                                    <img class="comment-img rounded-circle" src="{{ asset('images/astronaut-profile.png') }}">
-                                    <div class="comment-container d-inline-block pl-3 align-top">
-                                        <span class="commenter-name">Amy Oort</span>
-                                        <div class="form-group">
-                                            <textarea class="form-control comment-form" id="articleText" rows="1"></textarea>
-                                        </div>
-                                        <button type="submit" class="btn btn-info">Comment</button>
-                                    </div>
-                                </div>
-                            </div>
+                            <h3>Add new comment</h3>
+                            {{ include('main/_form.html.twig') }}
                         {% else %}
-                            <h3><i class="pr-3 fa fa-comment"></i>{{ post.comments|length }} comments</h3>
-                            <div class="row mb-5">
-                                <div class="col-sm-12">
-                                    <img class="comment-img rounded-circle" src="{{ asset('images/astronaut-profile.png') }}">
-                                    <div class="comment-container d-inline-block pl-3 align-top">
-                                        <span class="commenter-name">Amy Oort</span>
-                                        <div class="form-group">
-                                            <textarea class="form-control comment-form" id="articleText" rows="1"></textarea>
-                                        </div>
-                                        <button type="submit" class="btn btn-info">Comment</button>
-                                    </div>
-                                </div>
-                            </div>
-
+                            <h3><i class="pr-3 fa fa-comment"></i>{{ post.comments|length }} comments</h3><hr>
                             <div class="row">
                             {% for comment in post.comments %}
                             
@@ -83,10 +60,16 @@
                                         <br>
                                         <p class="comment">{{ comment.content }}</p>
                                    </div>
+                                    <div class="comment-container" >
+                                        <a href="{{ path('deleteComment', {'id': post.id, 'commentId': comment.id}) }}">
+                                            <button class="btn btn-danger">Delete</button>
+                                        </a><hr><br>
+                                    </div>
                                 </div>
                             {% endfor%}
-                            </div>                         
-
+                            </div>
+                            <h3>Add new comment</h3>
+                            {{ include('main/_form.html.twig') }}
                         {% endif %}                      
 
                     </div>

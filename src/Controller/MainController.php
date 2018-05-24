@@ -8,6 +8,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use App\Entity\Posts;
 use App\Entity\Category;
 use App\Entity\Tags;
+use App\Entity\Comments;
+use App\Form\CommentsType;
 use App\Repository\CategoryRepository;
 use App\Repository\TagsRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -38,9 +40,30 @@ class MainController extends Controller
     /**
      * @Route("/posts/{id}", name="showPostById", requirements={"id"="\d+"})
      */
-    public function showPostById(Posts $post)
-    {   
-        return $this->render('main/post.html.twig', ['post' => $post]);
+    public function showPostById(Posts $post, Request $request)
+    {
+        $comment = new Comments($post);
+        $form = $this->createForm(CommentsType::class, $comment);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            //add new comment to database
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($comment);
+            $em->flush();
+
+            //show flash message
+            $this->addFlash('success', 'You add a new comment!');
+
+            return $this->redirectToRoute('showPostById', ['id' => $post->getId()] );
+        }
+
+        return $this->render('main/post.html.twig', [
+            'post' => $post,
+            'comment' => $comment,
+            'form' => $form->createView(),
+        ]);
     }
 
     /**
@@ -52,14 +75,28 @@ class MainController extends Controller
     }
 
     /**
+     * @Route("{id}/comments/{commentId}/delete", name="deleteComment")
+     * @ParamConverter("comment", options={"mapping": {"commentId" = "id"}})
+     */
+    public function delete(Request $request, Comments $comment, Posts $post)
+    {
+        //remove comment from database
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($comment);
+        $entityManager->flush();
+
+        //show flash message
+        $this->addFlash('success', 'You delete a comment!');
+
+        return $this->redirectToRoute('showPostById', ['id' => $post->getId()] );
+    }
+
+    /**
      * @Route("/posts/tags/{tag}", name="showPostsByTag")
      * @ParamConverter("tag", options={"mapping": {"tag" = "name"}})
      */
-
     public function showPostsByTag(Tags $tag)
     {   
-        // $tag = $tagRepository->findOneBy(['name' => $tag]);
-        
         return $this->render('main/tag.html.twig', ['tag' => $tag ]);
     }
 

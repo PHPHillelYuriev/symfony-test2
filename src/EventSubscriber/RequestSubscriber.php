@@ -9,14 +9,14 @@ use Psr\Log\LoggerInterface;
 
 class RequestSubscriber implements EventSubscriberInterface
 {
-    // public function onKernelRequest(GetResponseEvent $event, LoggerInterface $logger)
-    // {
-    //     if (!$event->isMasterRequest()) {
-    //         return;
-    //     }
-
-    //     $logger->info('Site visited a user');
-    // }
+//    public function onKernelRequest(GetResponseEvent $event, $eventName, LoggerInterface $logger)
+//    {
+//        if (!$event->isMasterRequest()) {
+//            return;
+//        }
+//
+//        $logger->info('Site visited a user');
+//    }
 
     public static function getSubscribedEvents()
     {
@@ -26,24 +26,24 @@ class RequestSubscriber implements EventSubscriberInterface
     }
 
     //Если использую самописную функции то пишет log
-    public function onKernelRequest(GetResponseEvent $event)
-    {
-        if (!$event->isMasterRequest()) {
-            return;
-        }
+     public function onKernelRequest(GetResponseEvent $event)
+     {
+         if (!$event->isMasterRequest()) {
+             return;
+         }
 
-        $this->writeLogUserVisits();
-    }
+         $this->writeLogUserVisits();
+     }
 
-    public function writeLogUserVisits()
-    {   
-        $path = "..\\var\log";
+     public function writeLogUserVisits()
+     {
+         $path = "..\\var\log";
 
-        $file = $path . "\\userVisits.txt";
+         $file = $path . "\\userVisits.txt";
     
-        $text = "К нам зашел юзер \n";
-    
-        file_put_contents($file, $text, FILE_APPEND);
-    }
+         $text = "К нам зашел юзер \n";
+
+         file_put_contents($file, $text, FILE_APPEND);
+     }
 
 }

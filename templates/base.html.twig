@@ -13,7 +13,7 @@
 
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark navbar-bg mb-5">
-            <a style="margin-left: 75px;" class="navbar-brand space-brand" href="#">The Space Bar</a>
+            <a style="margin-left: 75px;" class="navbar-brand space-brand" href="{{ path('posts') }}">The Space Bar</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -45,7 +45,17 @@
             </div>
         </nav>
 
-        {% block body %}{% endblock %}
+        {% block body %}
+            {% block fleshMessage %}
+                {% for label, messages in app.flashes %}
+                    {% for message in messages %}
+                        <div class="btn btn-warning flash-{{ label }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            {% endblock %}
+        {% endblock %}
         
         <footer class="footer">
             <div class="container text-center">
@@ -53,14 +63,7 @@
             </div>
         </footer>
 
-        {% block fleshMessage %}
-            {% for message in app.flashes('success') %}
-                <div class="flash-success">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endblock %}
-            
+
         {% block javascripts %}
             <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>

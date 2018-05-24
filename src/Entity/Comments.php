@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CommentsRepository")
@@ -18,11 +19,13 @@ class Comments
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $author;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank()
      */
     private $content;
 
@@ -37,9 +40,10 @@ class Comments
      */
     private $published_date;
 
-    public function __construct()
+    public function __construct(Posts $post)
     {
         $this->published_date = new \DateTime() ? new \DateTime() : 'NEW';
+        $this->post= $post;
     }
 
     public function getId()
