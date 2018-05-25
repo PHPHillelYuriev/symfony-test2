@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\PostsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -14,6 +15,8 @@ use App\Repository\CategoryRepository;
 use App\Repository\TagsRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Psr\Log\LoggerInterface;
+
 
 class MainController extends Controller
 {
@@ -40,7 +43,7 @@ class MainController extends Controller
     /**
      * @Route("/posts/{id}", name="showPostById", requirements={"id"="\d+"})
      */
-    public function showPostById(Posts $post, Request $request)
+    public function showPostById(Posts $post, Request $request, LoggerInterface $logger)
     {
         $comment = new Comments($post);
         $form = $this->createForm(CommentsType::class, $comment);
@@ -54,7 +57,11 @@ class MainController extends Controller
             $em->flush();
 
             //show flash message
-            $this->addFlash('success', 'You add a new comment!');
+            $message = 'You add a new comment!';
+            $this->addFlash('success', $message);
+
+            //create log message
+            $logger->info($message);
 
             return $this->redirectToRoute('showPostById', ['id' => $post->getId()] );
         }
@@ -78,7 +85,7 @@ class MainController extends Controller
      * @Route("{id}/comments/{commentId}/delete", name="deleteComment")
      * @ParamConverter("comment", options={"mapping": {"commentId" = "id"}})
      */
-    public function delete(Request $request, Comments $comment, Posts $post)
+    public function delete(Request $request, Comments $comment, Posts $post, LoggerInterface $logger)
     {
         //remove comment from database
         $entityManager = $this->getDoctrine()->getManager();
@@ -86,7 +93,11 @@ class MainController extends Controller
         $entityManager->flush();
 
         //show flash message
-        $this->addFlash('success', 'You delete a comment!');
+        $message = 'You delete a comment!';
+        $this->addFlash('success', $message);
+
+        //create log message
+        $logger->info($message);
 
         return $this->redirectToRoute('showPostById', ['id' => $post->getId()] );
     }
@@ -104,7 +115,7 @@ class MainController extends Controller
      * @Route("/posts/categories/showCategories", name="showCategoriesFromAjax", requirements={"id"="\d+"}, methods={"POST"})
      */
     public function showCategoriesFromAjax()
-    {   
+    {
         $categories = [
             'category1' => 'Space',
             'category2' => 'Planet',
