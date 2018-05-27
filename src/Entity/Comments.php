@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -40,10 +42,17 @@ class Comments
      */
     private $published_date;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Posts", mappedBy="children")
+     */
+    private $parent;
+
+
     public function __construct(Posts $post)
     {
         $this->published_date = new \DateTime() ? new \DateTime() : 'NEW';
         $this->post= $post;
+        $this->parent = new ArrayCollection();
     }
 
     public function getId()
@@ -95,6 +104,37 @@ class Comments
     public function setPublishedDate(\DateTimeInterface $published_date): self
     {
         $this->published_date = $published_date;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Posts[]
+     */
+    public function getParent(): Collection
+    {
+        return $this->parent;
+    }
+
+    public function addParent(Posts $parent): self
+    {
+        if (!$this->parent->contains($parent)) {
+            $this->parent[] = $parent;
+            $parent->setChildren($this);
+        }
+
+        return $this;
+    }
+
+    public function removeParent(Posts $parent): self
+    {
+        if ($this->parent->contains($parent)) {
+            $this->parent->removeElement($parent);
+            // set the owning side to null (unless already changed)
+            if ($parent->getChildren() === $this) {
+                $parent->setChildren(null);
+            }
+        }
 
         return $this;
     }

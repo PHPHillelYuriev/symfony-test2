@@ -32,7 +32,7 @@
                     <div class="col-sm-12">
                         <div class="article-text">
                             <p>{{ post.content }}</p>
-                            <p><a href="{{ path('category_show', {'id': post.category}) }}" >Back to catecory: {{ post.category }}</a></p>
+                            <p><a href="{{ path('category_show', {'id': post.category.id}) }}" >Back to catecory: {{ post.category }}</a></p>
                         </div>
                     </div>
                 </div>

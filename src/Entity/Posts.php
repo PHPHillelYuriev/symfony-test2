@@ -227,4 +227,5 @@ class Posts
 
         return $this;
     }
+
 }
