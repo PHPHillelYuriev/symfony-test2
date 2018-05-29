@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Posts;
 use App\Form\PostsType;
 use App\Repository\PostsRepository;
+use App\Service\PostManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,23 +35,17 @@ class PostsController extends Controller
      */
     public function new(Request $request): Response
     {
-        $post = new Posts();
-        $form = $this->createForm(PostsType::class, $post);
-        $form->handleRequest($request);
+        $pm = $this->get(PostManager::class);
+        $res = $pm->createPost($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($post);
-            $em->flush();
+        //если пост добавлен
+        if (!$res) {
             $this->addFlash('success','You added new post!');
 
             return $this->redirectToRoute('adminPanel');
         }
 
-        return $this->render('posts/new.html.twig', [
-            'post' => $post,
-            'form' => $form->createView(),
-        ]);
+        return $this->render('posts/new.html.twig', $res);
     }
 
     /**
