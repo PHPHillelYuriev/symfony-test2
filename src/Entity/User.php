@@ -56,7 +56,7 @@ class User implements UserInterface, \Serializable
     private $roles;
 
     public function __construct() {
-        $this->roles = array('ROLE_USER');
+        $this->roles = array('ROLE_ADMIN');
         $this->isActive = 1;
     }
 
