@@ -10,7 +10,7 @@
 {{ parent() }}
 <div class="container">
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-12 col-md-8">
             <div class="show-article-container p-3 mt-4">
                 <div class="row">
                     <div class="col-sm-12">
@@ -76,6 +76,19 @@
                 </div>
             </div>
         </div>
+
+        <!-- Right bar ad space -->
+
+        <div class="quote-space pb-2 pt-2 px-5">
+            <h3 class="text-center pb-3">
+                <a href="{{ path('showCategoriesFromAjax') }}" class="js-showCategories">Categories:</a>
+            </h3>
+            <ul class="js-categoriesList list-group">    
+            </ul>
+        <div>
+        <!-- Вставить блок теги -->
+         {{ dump(app.user.roles) }}                            
+        {{ render(controller('App\\Controller\\MainController::tags')) }}
     </div>
 </div>
 

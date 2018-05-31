@@ -29,15 +29,31 @@ class PostManager
     public function createPost(Request $request)
     {
         $post = new Posts();
+        
+        return $this->editPost($request, $post);    
+    }
+
+    public function editPost(Request $request, Posts $post)
+    {
         $form = $this->formFactory->create(PostsType::class, $post);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->entityManager->persist($post);
-            $this->entityManager->flush();
+            $this->save($post);
 
-            return ;
-//            $this->redirectToRoute('adminPanel');
+            return;
+        }
+
+        return [
+            'post' => $post,
+            'form' => $form->createView(),
+        ];
+    }
+
+    private function save(Post $post)
+    {
+        if (!$post->getId()) {
+            $this->entityManager->flush();
         }
     }
 

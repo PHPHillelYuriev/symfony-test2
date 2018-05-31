@@ -53,7 +53,11 @@
                 </h3>
                 <ul class="js-categoriesList list-group">    
                 </ul>
-            <div>             
+            <div>
+
+            <!-- Вставить блок теги -->
+                                     
+            {{ render(controller('App\\Controller\\MainController::tags')) }}
 
         </div>
     </div>

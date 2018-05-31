@@ -16,7 +16,7 @@ use App\Repository\TagsRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Psr\Log\LoggerInterface;
-
+use App\Service\PostManager;
 
 class MainController extends Controller
 {
@@ -124,6 +124,13 @@ class MainController extends Controller
 
         return $this->json($categories);
     }
+
+    public function tags(TagsRepository $repository)
+    {
+        $tags = $repository->findAll();
+
+        return $this->render('main/partial/tags.html.twig', compact('tags'));       
+    }  
 
 }
 
